@@ -204,14 +204,12 @@ export async function action() {
     PULL_REQUEST = github.context.payload.pull_request,
     REGEX_STRING = `${TRIGGER_PHRASE}(?:\s*)https:\\/\\/app.asana.com\\/(\\d+)\\/(?<project>\\d+)\\/(?<task>\\d+)`,
     REGEX = new RegExp(REGEX_STRING, "g");
-  console.log("pull_request", PULL_REQUEST);
 
   const client = await buildClient(ASANA_PAT);
   if (client === null) {
     throw new Error("client authorization failed");
   }
 
-  console.info("looking in body", PULL_REQUEST?.body, "regex", REGEX_STRING);
   let foundAsanaTasks: string[] = [];
   let parseAsanaURL: RegExpExecArray | null;
   while ((parseAsanaURL = REGEX.exec(PULL_REQUEST?.body ?? "")) !== null) {
