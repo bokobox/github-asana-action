@@ -181,6 +181,22 @@ describe("asana github actions", () => {
     await expect(action.action()).resolves.toHaveLength(1);
   });
 
+  test("update fields", async () => {
+    inputs = {
+      "asana-pat": asanaPAT,
+      action: "update-fields",
+      targets:
+        '[{"project": "Asana bot test environment", "fields": [{"name": "Custom Number", "value": 1234},{"name": "Custom Enum", "value": "OK"}]}]',
+    };
+    github.context.payload = {
+      pull_request: {
+        body: defaultBody,
+      },
+    };
+
+    await expect(action.action()).resolves.toHaveLength(1);
+  });
+
   test("moving sections using project id", async () => {
     inputs = {
       "asana-pat": asanaPAT,

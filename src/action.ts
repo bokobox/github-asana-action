@@ -1,5 +1,11 @@
 import type { components } from "./asana-openapi-schema";
-import { ApiClient, UsersApi, TasksApi, SectionsApi, StoriesApi } from "asana";
+import {
+  UsersApi,
+  TasksApi,
+  SectionsApi,
+  StoriesApi,
+  CustomFieldSettingsApi,
+} from "asana";
 
 const Asana = require("asana");
 const core = require("@actions/core");
@@ -46,6 +52,93 @@ async function moveSection(taskId: string, targets: any[]) {
   });
 }
 
+async function updateFields(taskId: string, targets: any[]) {
+  const tasksClient = new Asana.TasksApi() as TasksApi;
+  const task = (
+    await tasksClient.getTask(taskId, {
+      opt_fields: "projects.name",
+    })
+  ).data as AsanaSchemas["TaskResponse"];
+
+  const customFieldSettingsClient =
+    new Asana.CustomFieldSettingsApi() as CustomFieldSettingsApi;
+
+  targets.forEach(async (target) => {
+    const targetProject = task.projects?.find((project) =>
+      target.project
+        ? project.name === target.project
+        : project.gid === target.project_id
+    );
+    if (!targetProject) {
+      core.info(`This task does not exist in "${target.project}" project`);
+      return;
+    }
+    const customFields = (
+      await customFieldSettingsClient.getCustomFieldSettingsForProject(
+        targetProject.gid,
+        {}
+      )
+    ).data as AsanaSchemas["CustomFieldSettingResponse"][];
+
+    const fields = target.fields as any[];
+    if (!fields) {
+      core.info(`No fields to update for ${target.project}`);
+      return;
+    }
+    let fieldsToUpdate: AsanaSchemas["TaskRequest"]["custom_fields"] = {};
+    fields.forEach(async (targetField: any) => {
+      let targetCustomField = customFields.find((field) =>
+        targetField.name
+          ? field.custom_field?.name === targetField.name
+          : field.custom_field?.gid === targetField.id
+      );
+      const customField = targetCustomField?.custom_field;
+      const fieldId = targetCustomField?.custom_field;
+      if (customField && customField.gid && customField.resource_subtype) {
+        const euumOptions = new Map(
+          customField.enum_options?.map((option) => [option.name, option.gid])
+        );
+        switch (customField.resource_subtype) {
+          case "enum":
+            if (!euumOptions.has(targetField.value)) {
+              core.error(
+                `Asana custom field enum value ${target.value} not found in ${targetField.name} field.`
+              );
+              break;
+            }
+            fieldsToUpdate[customField.gid] =
+              euumOptions.get(targetField.value) ?? "";
+            break;
+          case "multi_enum":
+            let enumValues = targetField.value as string[];
+            enumValues = enumValues.map((value) => {
+              if (!euumOptions.has(value)) {
+                core.error(
+                  `Asana custom field enum value ${value} not found in ${targetField.name} field.`
+                );
+                return "";
+              }
+              return euumOptions.get(value) ?? "";
+            });
+            fieldsToUpdate[customField.gid] = enumValues as any;
+            break;
+          default:
+            fieldsToUpdate[customField.gid] = targetField.value;
+            break;
+        }
+      } else {
+        core.error(`Asana custom field ${targetField.name} not found.`);
+      }
+    });
+
+    const data: AsanaSchemas["TaskRequest"] = {
+      custom_fields: fieldsToUpdate,
+    };
+    await tasksClient.updateTask({ data }, taskId, {});
+    core.info(`Updated: ${JSON.stringify(fields)}`);
+  });
+}
+
 async function findComment(
   taskId: string,
   commentId: string
@@ -54,7 +147,9 @@ async function findComment(
 
   const stories = (await storiesClient.getStoriesForTask(taskId, {}))
     .data as AsanaSchemas["StoryCompact"][];
-  return stories.find((story) => story.text && story.text.indexOf(commentId) !== -1);
+  return stories.find(
+    (story) => story.text && story.text.indexOf(commentId) !== -1
+  );
 }
 
 async function addComment(
@@ -217,6 +312,16 @@ export async function action() {
         movedTasks.push(taskId);
       }
       return movedTasks;
+    }
+    case "update-fields": {
+      const targetJSON = core.getInput("targets", { required: true });
+      const targets = JSON.parse(targetJSON);
+      const updatedTasks = [];
+      for (const taskId of foundAsanaTasks) {
+        await updateFields(taskId, targets);
+        updatedTasks.push(taskId);
+      }
+      return updatedTasks;
     }
     default:
       core.setFailed("unexpected action ${ACTION}");
