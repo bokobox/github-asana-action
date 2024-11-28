@@ -10,9 +10,9 @@
   },
   "scripts": {
     "test": "jest",
-    "package": "npx ncc build ./index.ts -o dist --source-map",
-    "generate-asana-types": "npx dts-gen -m asana -f @types/asana.d.ts",
-    "generate-openapi": "openapi-typescript https://raw.githubusercontent.com/Asana/openapi/master/defs/asana_oas.yaml -o asana-openapi-schema.ts"
+    "package": "npx ncc build src/index.ts -o dist --source-map --license LICENSE",
+    "generate-asana-types": "npx dts-gen -m asana -f src/@types/asana.d.ts",
+    "generate-openapi": "openapi-typescript https://raw.githubusercontent.com/Asana/openapi/master/defs/asana_oas.yaml -o src/asana-openapi-schema.ts"
   },
   "repository": {
     "type": "git",
@@ -36,10 +36,11 @@
     "dotenv": "^16.4.5"
   },
   "devDependencies": {
-    "ts-jest": "^29.2.5",
+    "@types/node": "^22.10.1",
     "@vercel/ncc": "^0.38.3",
-    "openapi-typescript": "^7.4.3",
     "dts-gen": "^0.10.4",
+    "openapi-typescript": "^7.4.3",
+    "ts-jest": "^29.2.5",
     "typescript": "^5.7.2"
   }
 }

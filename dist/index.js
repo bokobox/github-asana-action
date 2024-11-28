@@ -144,7 +144,7 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
 Object.defineProperty(exports, "__esModule", ({ value: true }));
 exports.platform = exports.toPlatformPath = exports.toWin32Path = exports.toPosixPath = exports.markdownSummary = exports.summary = exports.getIDToken = exports.getState = exports.saveState = exports.group = exports.endGroup = exports.startGroup = exports.info = exports.notice = exports.warning = exports.error = exports.debug = exports.isDebug = exports.setFailed = exports.setCommandEcho = exports.setOutput = exports.getBooleanInput = exports.getMultilineInput = exports.getInput = exports.addPath = exports.setSecret = exports.exportVariable = exports.ExitCode = void 0;
 const command_1 = __nccwpck_require__(4914);
-const file_command_1 = __nccwpck_require__(4753);
+const file_command_1 = __nccwpck_require__(7134);
 const utils_1 = __nccwpck_require__(302);
 const os = __importStar(__nccwpck_require__(857));
 const path = __importStar(__nccwpck_require__(6928));
@@ -455,7 +455,7 @@ exports.platform = __importStar(__nccwpck_require__(8968));
 
 /***/ }),
 
-/***/ 4753:
+/***/ 7134:
 /***/ (function(__unused_webpack_module, exports, __nccwpck_require__) {
 
 "use strict";
@@ -18883,7 +18883,7 @@ var UsersApi = exports.UsersApi = /*#__PURE__*/function () {
 
 /***/ }),
 
-/***/ 1941:
+/***/ 4322:
 /***/ ((__unused_webpack_module, exports, __nccwpck_require__) => {
 
 "use strict";
@@ -20036,7 +20036,7 @@ var _TimeTrackingEntriesApi = __nccwpck_require__(6830);
 var _TypeaheadApi = __nccwpck_require__(5825);
 var _UserTaskListsApi = __nccwpck_require__(1639);
 var _UsersApi = __nccwpck_require__(918);
-var _WebhooksApi = __nccwpck_require__(1941);
+var _WebhooksApi = __nccwpck_require__(4322);
 var _WorkspaceMembershipsApi = __nccwpck_require__(6526);
 var _WorkspacesApi = __nccwpck_require__(3666);
 
@@ -28380,7 +28380,7 @@ module.exports = function (str, opts) {
 "use strict";
 
 
-var getSideChannel = __nccwpck_require__(7134);
+var getSideChannel = __nccwpck_require__(4753);
 var utils = __nccwpck_require__(5225);
 var formats = __nccwpck_require__(6032);
 var has = Object.prototype.hasOwnProperty;
@@ -31613,7 +31613,7 @@ module.exports = function setFunctionLength(fn, length) {
 
 /***/ }),
 
-/***/ 7134:
+/***/ 4753:
 /***/ ((module, __unused_webpack_exports, __nccwpck_require__) => {
 
 "use strict";
@@ -35635,7 +35635,7 @@ if (util.nodeMajor >= 16) {
   module.exports.getSetCookies = getSetCookies
   module.exports.setCookie = setCookie
 
-  const { parseMIMEType, serializeAMimeType } = __nccwpck_require__(4322)
+  const { parseMIMEType, serializeAMimeType } = __nccwpck_require__(1941)
 
   module.exports.parseMIMEType = parseMIMEType
   module.exports.serializeAMimeType = serializeAMimeType
@@ -38390,7 +38390,7 @@ module.exports = {
 
 
 const assert = __nccwpck_require__(2613)
-const { URLSerializer } = __nccwpck_require__(4322)
+const { URLSerializer } = __nccwpck_require__(1941)
 const { isValidHeaderName } = __nccwpck_require__(5523)
 
 /**
@@ -41007,7 +41007,7 @@ module.exports = {
 
 const { maxNameValuePairSize, maxAttributeValueSize } = __nccwpck_require__(9237)
 const { isCTLExcludingHtab } = __nccwpck_require__(3834)
-const { collectASequenceOfCodePointsFast } = __nccwpck_require__(4322)
+const { collectASequenceOfCodePointsFast } = __nccwpck_require__(1941)
 const assert = __nccwpck_require__(2613)
 
 /**
@@ -43544,7 +43544,7 @@ const assert = __nccwpck_require__(2613)
 const { isErrored } = __nccwpck_require__(3440)
 const { isUint8Array, isArrayBuffer } = __nccwpck_require__(8253)
 const { File: UndiciFile } = __nccwpck_require__(3041)
-const { parseMIMEType, serializeAMimeType } = __nccwpck_require__(4322)
+const { parseMIMEType, serializeAMimeType } = __nccwpck_require__(1941)
 
 let ReadableStream = globalThis.ReadableStream
 
@@ -44290,7 +44290,7 @@ module.exports = {
 
 /***/ }),
 
-/***/ 4322:
+/***/ 1941:
 /***/ ((module, __unused_webpack_exports, __nccwpck_require__) => {
 
 const assert = __nccwpck_require__(2613)
@@ -44935,7 +44935,7 @@ const { types } = __nccwpck_require__(9023)
 const { kState } = __nccwpck_require__(9710)
 const { isBlobLike } = __nccwpck_require__(5523)
 const { webidl } = __nccwpck_require__(4222)
-const { parseMIMEType, serializeAMimeType } = __nccwpck_require__(4322)
+const { parseMIMEType, serializeAMimeType } = __nccwpck_require__(1941)
 const { kEnumerableProperty } = __nccwpck_require__(3440)
 const encoder = new TextEncoder()
 
@@ -46257,7 +46257,7 @@ const { kHeadersList } = __nccwpck_require__(6443)
 const EE = __nccwpck_require__(4434)
 const { Readable, pipeline } = __nccwpck_require__(2203)
 const { addAbortListener, isErrored, isReadable, nodeMajor, nodeMinor } = __nccwpck_require__(3440)
-const { dataURLProcessor, serializeAMimeType } = __nccwpck_require__(4322)
+const { dataURLProcessor, serializeAMimeType } = __nccwpck_require__(1941)
 const { TransformStream } = __nccwpck_require__(3774)
 const { getGlobalDispatcher } = __nccwpck_require__(2581)
 const { webidl } = __nccwpck_require__(4222)
@@ -48383,7 +48383,7 @@ const { kEnumerableProperty } = util
 const { kHeaders, kSignal, kState, kGuard, kRealm } = __nccwpck_require__(9710)
 const { webidl } = __nccwpck_require__(4222)
 const { getGlobalOrigin } = __nccwpck_require__(5628)
-const { URLSerializer } = __nccwpck_require__(4322)
+const { URLSerializer } = __nccwpck_require__(1941)
 const { kHeadersList, kConstruct } = __nccwpck_require__(6443)
 const assert = __nccwpck_require__(2613)
 const { getMaxListeners, setMaxListeners, getEventListeners, defaultMaxListeners } = __nccwpck_require__(4434)
@@ -49332,7 +49332,7 @@ const { kState, kHeaders, kGuard, kRealm } = __nccwpck_require__(9710)
 const { webidl } = __nccwpck_require__(4222)
 const { FormData } = __nccwpck_require__(3073)
 const { getGlobalOrigin } = __nccwpck_require__(5628)
-const { URLSerializer } = __nccwpck_require__(4322)
+const { URLSerializer } = __nccwpck_require__(1941)
 const { kHeadersList, kConstruct } = __nccwpck_require__(6443)
 const assert = __nccwpck_require__(2613)
 const { types } = __nccwpck_require__(9023)
@@ -52477,7 +52477,7 @@ const {
 const { ProgressEvent } = __nccwpck_require__(5976)
 const { getEncoding } = __nccwpck_require__(396)
 const { DOMException } = __nccwpck_require__(7326)
-const { serializeAMimeType, parseMIMEType } = __nccwpck_require__(4322)
+const { serializeAMimeType, parseMIMEType } = __nccwpck_require__(1941)
 const { types } = __nccwpck_require__(9023)
 const { StringDecoder } = __nccwpck_require__(3193)
 const { btoa } = __nccwpck_require__(181)
@@ -57005,7 +57005,7 @@ module.exports = {
 
 const { webidl } = __nccwpck_require__(4222)
 const { DOMException } = __nccwpck_require__(7326)
-const { URLSerializer } = __nccwpck_require__(4322)
+const { URLSerializer } = __nccwpck_require__(1941)
 const { getGlobalOrigin } = __nccwpck_require__(5628)
 const { staticPropertyDescriptors, states, opcodes, emptyBuffer } = __nccwpck_require__(5913)
 const {
@@ -59673,12 +59673,14 @@ function wrappy (fn, cb) {
 
 /***/ }),
 
-/***/ 5590:
-/***/ ((module, __webpack_exports__, __nccwpck_require__) => {
+/***/ 2929:
+/***/ ((__unused_webpack_module, exports, __nccwpck_require__) => {
 
 "use strict";
-__nccwpck_require__.r(__webpack_exports__);
-/* module decorator */ module = __nccwpck_require__.hmd(module);
+
+Object.defineProperty(exports, "__esModule", ({ value: true }));
+exports.buildClient = buildClient;
+exports["default"] = action;
 const Asana = __nccwpck_require__(6727);
 const core = __nccwpck_require__(7484);
 const github = __nccwpck_require__(3228);
@@ -59689,7 +59691,7 @@ async function moveSection(taskId, targets) {
     })).data;
     const sectionClient = new Asana.SectionsApi();
     targets.forEach(async (target) => {
-        const targetProject = task.projects.find((project) => target.project
+        const targetProject = task.projects?.find((project) => target.project
             ? project.name === target.project
             : project.gid === target.project_id);
         if (!targetProject) {
@@ -59716,7 +59718,7 @@ async function findComment(taskId, commentId) {
     const storiesClient = new Asana.StoriesApi();
     const stories = (await storiesClient.getStoriesForTask(taskId, {}))
         .data;
-    return stories.find((story) => story.text.indexOf(commentId) !== -1);
+    return stories.find((story) => story.text && story.text.indexOf(commentId) !== -1);
 }
 async function addComment(taskId, commentId, text, isPinned) {
     if (commentId) {
@@ -59854,12 +59856,30 @@ async function action() {
             core.setFailed("unexpected action ${ACTION}");
     }
 }
-module.exports = {
-    action,
-    default: action,
-    buildClient: buildClient,
-};
 
+
+/***/ }),
+
+/***/ 9407:
+/***/ (function(__unused_webpack_module, exports, __nccwpck_require__) {
+
+"use strict";
+
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
+Object.defineProperty(exports, "__esModule", ({ value: true }));
+const action_1 = __importDefault(__nccwpck_require__(2929));
+const core = __nccwpck_require__(7484);
+async function run() {
+    try {
+        await (0, action_1.default)();
+    }
+    catch (error) {
+        core.setFailed(error.message);
+    }
+}
+run();
 
 
 /***/ }),
@@ -61783,8 +61803,8 @@ module.exports = /*#__PURE__*/JSON.parse('[[[0,44],"disallowed_STD3_valid"],[[45
 /******/ 		}
 /******/ 		// Create a new module (and put it into the cache)
 /******/ 		var module = __webpack_module_cache__[moduleId] = {
-/******/ 			id: moduleId,
-/******/ 			loaded: false,
+/******/ 			// no module.id needed
+/******/ 			// no module.loaded needed
 /******/ 			exports: {}
 /******/ 		};
 /******/ 	
@@ -61797,59 +61817,23 @@ module.exports = /*#__PURE__*/JSON.parse('[[[0,44],"disallowed_STD3_valid"],[[45
 /******/ 			if(threw) delete __webpack_module_cache__[moduleId];
 /******/ 		}
 /******/ 	
-/******/ 		// Flag the module as loaded
-/******/ 		module.loaded = true;
-/******/ 	
 /******/ 		// Return the exports of the module
 /******/ 		return module.exports;
 /******/ 	}
 /******/ 	
 /************************************************************************/
-/******/ 	/* webpack/runtime/harmony module decorator */
-/******/ 	(() => {
-/******/ 		__nccwpck_require__.hmd = (module) => {
-/******/ 			module = Object.create(module);
-/******/ 			if (!module.children) module.children = [];
-/******/ 			Object.defineProperty(module, 'exports', {
-/******/ 				enumerable: true,
-/******/ 				set: () => {
-/******/ 					throw new Error('ES Modules may not assign module.exports or exports.*, Use ESM export syntax, instead: ' + module.id);
-/******/ 				}
-/******/ 			});
-/******/ 			return module;
-/******/ 		};
-/******/ 	})();
-/******/ 	
-/******/ 	/* webpack/runtime/make namespace object */
-/******/ 	(() => {
-/******/ 		// define __esModule on exports
-/******/ 		__nccwpck_require__.r = (exports) => {
-/******/ 			if(typeof Symbol !== 'undefined' && Symbol.toStringTag) {
-/******/ 				Object.defineProperty(exports, Symbol.toStringTag, { value: 'Module' });
-/******/ 			}
-/******/ 			Object.defineProperty(exports, '__esModule', { value: true });
-/******/ 		};
-/******/ 	})();
-/******/ 	
 /******/ 	/* webpack/runtime/compat */
 /******/ 	
 /******/ 	if (typeof __nccwpck_require__ !== 'undefined') __nccwpck_require__.ab = __dirname + "/";
 /******/ 	
 /************************************************************************/
-var __webpack_exports__ = {};
-const core = __nccwpck_require__(7484);
-const action = __nccwpck_require__(5590);
-async function run() {
-    try {
-        await action.action();
-    }
-    catch (error) {
-        core.setFailed(error.message);
-    }
-}
-run();
-
-module.exports = __webpack_exports__;
+/******/ 	
+/******/ 	// startup
+/******/ 	// Load entry module and return exports
+/******/ 	// This entry module is referenced by other modules so it can't be inlined
+/******/ 	var __webpack_exports__ = __nccwpck_require__(9407);
+/******/ 	module.exports = __webpack_exports__;
+/******/ 	
 /******/ })()
 ;
 //# sourceMappingURL=index.js.map

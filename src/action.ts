@@ -6,7 +6,7 @@ const core = require("@actions/core");
 const github = require("@actions/github");
 type AsanaSchemas = components["schemas"];
 
-async function moveSection(taskId: string, targets) {
+async function moveSection(taskId: string, targets: any[]) {
   const tasksClient = new Asana.TasksApi() as TasksApi;
   const task = (
     await tasksClient.getTask(taskId, {
@@ -17,7 +17,7 @@ async function moveSection(taskId: string, targets) {
   const sectionClient = new Asana.SectionsApi() as SectionsApi;
 
   targets.forEach(async (target) => {
-    const targetProject = task.projects.find((project) =>
+    const targetProject = task.projects?.find((project) =>
       target.project
         ? project.name === target.project
         : project.gid === target.project_id
@@ -47,22 +47,22 @@ async function moveSection(taskId: string, targets) {
 }
 
 async function findComment(
-  taskId,
-  commentId
+  taskId: string,
+  commentId: string
 ): Promise<AsanaSchemas["StoryCompact"] | undefined> {
   const storiesClient = new Asana.StoriesApi() as StoriesApi;
 
   const stories = (await storiesClient.getStoriesForTask(taskId, {}))
     .data as AsanaSchemas["StoryCompact"][];
-  return stories.find((story) => story.text.indexOf(commentId) !== -1);
+  return stories.find((story) => story.text && story.text.indexOf(commentId) !== -1);
 }
 
 async function addComment(
-  taskId,
-  commentId,
-  text,
-  isPinned
-): Promise<AsanaSchemas["StoryResponse"]> {
+  taskId: string,
+  commentId: string,
+  text: string,
+  isPinned: boolean
+): Promise<AsanaSchemas["StoryResponse"] | undefined> {
   if (commentId) {
     text += "\n" + commentId + "\n";
   }
@@ -81,7 +81,7 @@ async function addComment(
   }
 }
 
-async function buildClient(asanaPAT): Promise<string | null> {
+export async function buildClient(asanaPAT: string): Promise<string | null> {
   let client = Asana.ApiClient.instance;
   let token = client.authentications["token"];
   token.accessToken = asanaPAT;
@@ -97,7 +97,7 @@ async function buildClient(asanaPAT): Promise<string | null> {
   }
 }
 
-async function action() {
+export async function action() {
   const ASANA_PAT = core.getInput("asana-pat", { required: true }),
     ACTION = core.getInput("action", { required: true }),
     TRIGGER_PHRASE = core.getInput("trigger-phrase") || "",
@@ -223,8 +223,4 @@ async function action() {
   }
 }
 
-module.exports = {
-  action,
-  default: action,
-  buildClient: buildClient,
-};
+export default action;

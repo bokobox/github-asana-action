@@ -8,17 +8,17 @@ import {
   afterAll,
   beforeEach,
 } from "@jest/globals";
-import { ApiClient, UsersApi, TasksApi, SectionsApi, StoriesApi } from "asana";
+import { TasksApi } from "asana";
+import * as action from "./action";
 
 const Asana = require("asana");
-const action = require("./action");
 const core = require("@actions/core");
 const github = require("@actions/github");
 type AsanaSchemas = components["schemas"];
 
 describe("asana github actions", () => {
-  let inputs = {};
-  let defaultBody;
+  let inputs: Record<string, any> = {};
+  let defaultBody: string;
   let task: AsanaSchemas["TaskResponse"];
 
   const asanaPAT = process.env["ASANA_PAT"];
@@ -34,14 +34,16 @@ describe("asana github actions", () => {
 
   beforeAll(async () => {
     // Mock getInput
-    jest
-      .spyOn(core, "getInput")
-      .mockImplementation((name: string, options: { required: boolean }) => {
-        if (inputs[name] === undefined && options && options.required) {
-          throw new Error(name + " was not expected to be empty");
-        }
-        return inputs[name];
-      });
+    jest.spyOn(core, "getInput").mockImplementation((name, options) => {
+      if (
+        inputs[name as string] === undefined &&
+        options &&
+        (options as { required: boolean }).required
+      ) {
+        throw new Error(name + " was not expected to be empty");
+      }
+      return inputs[name as string];
+    });
 
     // Mock error/warning/info/debug
     jest.spyOn(core, "error").mockImplementation(jest.fn());
