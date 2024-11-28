@@ -52,7 +52,11 @@ async function moveSection(taskId: string, targets: any[]) {
   });
 }
 
-async function updateFields(taskId: string, targets: any[]) {
+async function updateFields(
+  taskId: string,
+  isComplete: boolean | undefined,
+  targets: any[]
+) {
   const tasksClient = new Asana.TasksApi() as TasksApi;
   const task = (
     await tasksClient.getTask(taskId, {
@@ -133,6 +137,7 @@ async function updateFields(taskId: string, targets: any[]) {
 
     const data: AsanaSchemas["TaskRequest"] = {
       custom_fields: fieldsToUpdate,
+      completed: isComplete,
     };
     await tasksClient.updateTask({ data }, taskId, {});
     core.info(`Updated: ${JSON.stringify(fields)}`);
@@ -314,11 +319,18 @@ export async function action() {
       return movedTasks;
     }
     case "update-fields": {
+      const isCompleteString = core.getInput("is-complete");
+      const isComplete =
+        isCompleteString === "true"
+          ? true
+          : isCompleteString === "false"
+          ? false
+          : undefined;
       const targetJSON = core.getInput("targets", { required: true });
       const targets = JSON.parse(targetJSON);
       const updatedTasks = [];
       for (const taskId of foundAsanaTasks) {
-        await updateFields(taskId, targets);
+        await updateFields(taskId, isComplete, targets);
         updatedTasks.push(taskId);
       }
       return updatedTasks;
