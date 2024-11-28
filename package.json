@@ -5,9 +5,12 @@
     "node": ">=20"
   },
   "description": "Action to integrate git with asana",
-  "main": "index.js",
+  "exports": {
+    ".": "./dist/index.js"
+  },
   "scripts": {
     "test": "jest",
+    "package": "npx ncc build ./index.ts -o dist --source-map",
     "generate-asana-types": "npx dts-gen -m asana -f @types/asana.d.ts",
     "generate-openapi": "openapi-typescript https://raw.githubusercontent.com/Asana/openapi/master/defs/asana_oas.yaml -o asana-openapi-schema.ts"
   },
@@ -34,6 +37,7 @@
   },
   "devDependencies": {
     "ts-jest": "^29.2.5",
+    "@vercel/ncc": "^0.38.3",
     "openapi-typescript": "^7.4.3",
     "dts-gen": "^0.10.4",
     "typescript": "^5.7.2"

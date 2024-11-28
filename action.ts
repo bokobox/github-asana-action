@@ -135,13 +135,13 @@ async function action() {
       const githubToken = core.getInput("github-token", { required: true });
       const linkRequired =
         core.getInput("link-required", { required: true }) === "true";
-      const octokit = github.getOctokit(githubToken);
+      const octokit = new github.GitHub(githubToken);
       const statusState =
         !linkRequired || foundAsanaTasks.length > 0 ? "success" : "error";
       core.info(
         `setting ${statusState} for ${github.context.payload.pull_request.head.sha}`
       );
-      octokit.rest.repos.createStatus({
+      octokit.repos.createStatus({
         ...github.context.repo,
         context: "asana-link-presence",
         state: statusState,
