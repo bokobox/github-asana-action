@@ -19,6 +19,7 @@ type AsanaSchemas = components["schemas"];
 describe("asana github actions", () => {
   let inputs: Record<string, any> = {};
   let defaultBody: string;
+  let defaultBodyWithNewUrl: string;
   let task: AsanaSchemas["TaskResponse"];
 
   const asanaPAT = process.env["ASANA_PAT"];
@@ -28,6 +29,10 @@ describe("asana github actions", () => {
   const projectId = process.env["ASANA_PROJECT_ID"];
   if (!projectId) {
     throw new Error("need ASANA_PROJECT_ID in the test env");
+  }
+  const organizationId = process.env["ASANA_ORGANIZATION_ID"];
+  if (!organizationId) {
+    throw new Error("need ASANA_ORGANIZATION_ID in the test env");
   }
 
   const commentId = Date.now().toString();
@@ -71,6 +76,7 @@ describe("asana github actions", () => {
       .data as AsanaSchemas["TaskResponse"];
 
     defaultBody = `Implement https://app.asana.com/0/${projectId}/${task.gid} in record time`;
+    defaultBodyWithNewUrl = `Implement https://app.asana.com/1/${organizationId}/project/${projectId}/task/${task.gid} in record time`;
   });
 
   afterAll(async () => {
@@ -240,5 +246,27 @@ describe("asana github actions", () => {
       })
     ).data as AsanaSchemas["TaskResponse"];
     expect(actualTask.completed).toBe(true);
+  });
+
+  test("un-completing task using new url format", async () => {
+    inputs = {
+      "asana-pat": asanaPAT,
+      action: "complete-task",
+      "is-complete": "false",
+    };
+    github.context.payload = {
+      pull_request: {
+        body: defaultBodyWithNewUrl,
+      },
+    };
+
+    await expect(action.action()).resolves.toHaveLength(1);
+    const tasksClient = new Asana.TasksApi() as TasksApi;
+    const actualTask = (
+      await tasksClient.getTask(task.gid, {
+        opt_fields: "completed",
+      })
+    ).data as AsanaSchemas["TaskResponse"];
+    expect(actualTask.completed).toBe(false);
   });
 });

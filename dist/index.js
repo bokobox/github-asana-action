@@ -59819,17 +59819,15 @@ async function buildClient(asanaPAT) {
     }
 }
 async function action() {
-    const ASANA_PAT = core.getInput("asana-pat", { required: true }), ACTION = core.getInput("action", { required: true }), TRIGGER_PHRASE = core.getInput("trigger-phrase") || "", PULL_REQUEST = github.context.payload.pull_request, REGEX_STRING = `${TRIGGER_PHRASE}(?:\s*)https:\\/\\/app.asana.com\\/(\\d+)\\/(?<project>\\d+)\\/(?<task>\\d+)`, REGEX = new RegExp(REGEX_STRING, "g");
-    console.log("pull_request", PULL_REQUEST);
+    const ASANA_PAT = core.getInput("asana-pat", { required: true }), ACTION = core.getInput("action", { required: true }), TRIGGER_PHRASE = core.getInput("trigger-phrase") || "", PULL_REQUEST = github.context.payload.pull_request, REGEX_STRING = `${TRIGGER_PHRASE}(?:\s*)https:\\/\\/app\\.asana\\.com\\/(?:0\\/(?<project_old>\\d+)\\/(?<task_old>\\d+)|1\\/\\d+\\/project\\/(?<project_new>\\d+)\\/task\\/(?<task_new>\\d+))`, REGEX = new RegExp(REGEX_STRING, "g");
     const client = await buildClient(ASANA_PAT);
     if (client === null) {
         throw new Error("client authorization failed");
     }
-    console.info("looking in body", PULL_REQUEST?.body, "regex", REGEX_STRING);
     let foundAsanaTasks = [];
     let parseAsanaURL;
     while ((parseAsanaURL = REGEX.exec(PULL_REQUEST?.body ?? "")) !== null) {
-        const taskId = parseAsanaURL.groups?.task;
+        const taskId = parseAsanaURL.groups?.task_old ?? parseAsanaURL.groups?.task_new;
         if (!taskId) {
             core.error(`Invalid Asana task URL after the trigger phrase ${TRIGGER_PHRASE}`);
             continue;
